@@ -24,4 +24,4 @@ RUN nix-channel --update
 RUN nix-shell '<home-manager>' -A install
 
 # workdir
-WORKDIR /home/user
+WORKDIR /home/user/dotfiles

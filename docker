@@ -2,5 +2,6 @@
 
 docker build -t 'nix-files' .
 docker run --rm -u user \
-	-v "$PWD/home-manager":/home/user/.config/home-manager \
+	-v "$PWD/home-manager":/home/user/dotfiles \
+	-v "$PWD/nix.conf":/home/user/.config/nix/nix.conf \
 	-it 'nix-files' bash
