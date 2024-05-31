@@ -12,7 +12,9 @@
   outputs = { nixpkgs, home-manager, ... }@attrs:
     let
       system = "x86_64-linux";
-      pkgs = nixpkgs.legacyPackages.${system};
+      pkgs = nixpkgs.legacyPackages.${system} // {
+        config.allowUnfree = true;
+      };
       user = "user";
       home = "/home/user";
     in
