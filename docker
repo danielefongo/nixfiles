@@ -1,0 +1,6 @@
+#!/bin/env bash
+
+docker build -t 'nix-files' .
+docker run --rm -u user \
+	-v "$PWD/home-manager":/home/user/.config/home-manager \
+	-it 'nix-files' bash
