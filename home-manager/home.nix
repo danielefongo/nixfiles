@@ -3,7 +3,9 @@
 {
   home.username = user;
   home.homeDirectory = home;
-  home.packages = [ ];
+  home.packages = [
+    pkgs.rebuild
+  ];
 
   home.stateVersion = "24.05";
 

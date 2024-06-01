@@ -14,6 +14,11 @@
       system = "x86_64-linux";
       pkgs = nixpkgs.legacyPackages.${system} // {
         config.allowUnfree = true;
+        overlays = [
+          (self: super: {
+            rebuild = super.callPackage ./pkgs/rebuild.nix { };
+          })
+        ];
       };
       user = "user";
       home = "/home/user";
