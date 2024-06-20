@@ -4,8 +4,8 @@ RUN pacman -Syu --noconfirm
 RUN pacman -S sudo --noconfirm
 
 # env
-ENV USER=user
-ENV HOME=/home/user
+ENV USER=danielefongo
+ENV HOME=/home/danielefongo
 
 # create user
 RUN useradd -m -d $HOME $USER \

@@ -20,8 +20,8 @@
           })
         ];
       };
-      user = "user";
-      home = "/home/user";
+      user = "danielefongo";
+      home = "/home/danielefongo";
     in
     {
       formatter.x86_64-linux = pkgs.nixpkgs-fmt;
