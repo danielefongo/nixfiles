@@ -1,6 +1,10 @@
 { config, pkgs, user, home, ... }:
 
 {
+  imports = [
+    ./modules/i3.nix
+  ];
+
   home.username = user;
   home.homeDirectory = home;
   home.packages = [

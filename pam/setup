@@ -1,0 +1,38 @@
+#!/bin/bash
+
+# Thanks to https://github.com/NixOS/nixpkgs/issues/158025#issuecomment-1616807870
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" &>/dev/null && pwd)"
+
+if [ "$1" == "-d" ]; then
+	sudo rm /etc/pam.d/i3lock
+	if sudo mountpoint -q /run/wrappers; then
+		sudo umount /run/wrappers
+	fi
+	sudo rm -rf /run/wrappers
+	sudo systemctl disable install-unix_chkpwd-wrapper.service
+	sudo rm /etc/systemd/system/install-unix_chkpwd-wrapper.service
+
+	echo "Pam unset"
+else
+	sudo cp "$SCRIPT_DIR/i3lock" /etc/pam.d/i3lock
+	sudo mkdir -p /run/wrappers
+	sudo mountpoint -q /run/wrappers || sudo mount -t tmpfs -o defaults,nodev,noatime,mode=755 tmpfs /run/wrappers
+	sudo tee /etc/systemd/system/install-unix_chkpwd-wrapper.service 1>/dev/null <<EOF
+[Unit]
+Description=Install unix_chkpwd wrapper for PAM
+After=local-fs.target
+Before=multi-user.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/mkdir -p /run/wrappers/bin
+ExecStart=/usr/bin/ln -sf /sbin/unix_chkpwd /run/wrappers/bin/unix_chkpwd
+
+[Install]
+WantedBy=multi-user.target
+EOF
+	sudo systemctl enable install-unix_chkpwd-wrapper.service
+
+	echo "Pam set"
+fi
